@@ -22,3 +22,9 @@ class InputForm:
         param.get_json_repr() for param in self.parameters
       ]
     }
+
+  def bind_request_data(self, formdata: MultiDict[str]):
+    data = {
+      param.name: param.parse_request_data(formdata)
+      for param in self.parameters
+    }

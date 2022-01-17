@@ -13,6 +13,10 @@ class Parameter(ABC):
     """ Returns json representation of the field """
     ...
 
+  def parse_request_data(self, formdata: MultiDict[str]):
+    """ Parses data coming from the http request """
+    ...
+
 
 class NumberParameter(Parameter):
   min: float
@@ -28,6 +32,9 @@ class NumberParameter(Parameter):
 
   def get_json_repr(self):
     ...
+
+  def parse_request_data(self, formdata):
+    return int(formdata.get(self.name))
 
 
 class StringParameter(Parameter):
@@ -45,6 +52,9 @@ class StringParameter(Parameter):
   def get_json_repr(self):
     ...
 
+  def parse_request_data(self, formdata):
+    return formdata.get(self.name)
+
 
 class ChoiceParameter(Parameter):
   choices: list[str]
@@ -59,3 +69,6 @@ class ChoiceParameter(Parameter):
 
   def get_json_repr(self):
     ...
+
+  def parse_request_data(self, formdata):
+    return formdata.get(self.name)
