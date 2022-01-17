@@ -46,10 +46,19 @@ class JSONFormView:
     ...
 
   def get_json_repr(self):
+    params_repr = []
+    for param in self.form.parameters:
+      # parameter "casting" must be performed in each case
+      if isinstance(param, NumberParameter):
+        view = JSONNumberParameterView(param)
+      elif isinstance(param, StringParameter):
+        view = JSONStringParameterView(param)
+      elif isinstance(param, ChoiceParameter):
+        view = JSONChoiceParameterView(param)
+      else:
+        # what if new parameter type is added?
+        raise TypeError
+      params_repr.append(view.get_json_repr())
     return {
-      "parameters": [
-        param.get_json_view().get_json_repr()
-        for param in self.form.parameters
-      ]
+      "parameters": params_repr
     }
-

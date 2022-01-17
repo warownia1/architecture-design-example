@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from .views import *
 
 
 class Parameter(ABC):
@@ -30,9 +29,6 @@ class NumberParameter(Parameter):
   def validate(self, value: Any):
     ...
 
-  def get_json_view(self) -> JSONParameterView:
-    return JSONNumberParameterView(self)
-
   def parse_request_data(self, formdata):
     return int(formdata.get(self.name))
 
@@ -49,9 +45,6 @@ class StringParameter(Parameter):
   def validate(self, value: Any):
     ...
 
-  def get_json_view(self) -> JSONParameterView:
-    return JSONStringParameterView(self)
-
   def parse_request_data(self, formdata):
     return formdata.get(self.name)
 
@@ -66,9 +59,6 @@ class ChoiceParameter(Parameter):
 
   def validate(self, value: Any):
     ...
-
-  def get_json_view(self) -> JSONParameterView:
-    return JSONChoiceParameterView(self)
 
   def parse_request_data(self, formdata):
     return formdata.get(self.name)
