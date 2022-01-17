@@ -15,3 +15,10 @@ class InputForm:
     for parameter in self.parameters:
       data = self.formdata.get(parameter.name)
       parameter.validate(data)
+
+  def get_json_repr(self):
+    return {
+      "parameters": [
+        param.get_json_repr() for param in self.parameters
+      ]
+    }

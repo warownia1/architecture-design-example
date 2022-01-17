@@ -9,6 +9,10 @@ class Parameter(ABC):
     """ Validate value or throw ValidationError """
     ...
 
+  def get_json_repr(self):
+    """ Returns json representation of the field """
+    ...
+
 
 class NumberParameter(Parameter):
   min: float
@@ -20,6 +24,9 @@ class NumberParameter(Parameter):
     ...
 
   def validate(self. value: Any):
+    ...
+
+  def get_json_repr(self):
     ...
 
 
@@ -35,6 +42,9 @@ class StringParameter(Parameter):
   def validate(self, value: Any):
     ...
 
+  def get_json_repr(self):
+    ...
+
 
 class ChoiceParameter(Parameter):
   choices: list[str]
@@ -45,4 +55,7 @@ class ChoiceParameter(Parameter):
     ...
 
   def validate(self, value: Any):
+    ...
+
+  def get_json_repr(self):
     ...
