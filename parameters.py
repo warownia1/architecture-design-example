@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from .views import *
 
 
 class Parameter(ABC):
@@ -9,8 +10,7 @@ class Parameter(ABC):
     """ Validate value or throw ValidationError """
     ...
 
-  def get_json_repr(self):
-    """ Returns json representation of the field """
+  def get_json_view(self) -> JSONParameterView:
     ...
 
   def parse_request_data(self, formdata: MultiDict[str]):
@@ -27,11 +27,11 @@ class NumberParameter(Parameter):
   def __init__(self, name, min, max, required, default):
     ...
 
-  def validate(self. value: Any):
+  def validate(self, value: Any):
     ...
 
-  def get_json_repr(self):
-    ...
+  def get_json_view(self) -> JSONParameterView:
+    return JSONNumberParameterView(self)
 
   def parse_request_data(self, formdata):
     return int(formdata.get(self.name))
@@ -49,8 +49,8 @@ class StringParameter(Parameter):
   def validate(self, value: Any):
     ...
 
-  def get_json_repr(self):
-    ...
+  def get_json_view(self) -> JSONParameterView:
+    return JSONStringParameterView(self)
 
   def parse_request_data(self, formdata):
     return formdata.get(self.name)
@@ -67,8 +67,8 @@ class ChoiceParameter(Parameter):
   def validate(self, value: Any):
     ...
 
-  def get_json_repr(self):
-    ...
+  def get_json_view(self) -> JSONParameterView:
+    return JSONChoiceParameterView(self)
 
   def parse_request_data(self, formdata):
     return formdata.get(self.name)

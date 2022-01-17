@@ -1,5 +1,6 @@
 from parameters import Parameter
 from typing import Any
+from .views import JSONFormView
 
 class InputForm:
   parameters: list[Parameter]
@@ -16,12 +17,8 @@ class InputForm:
       data = self.formdata.get(parameter.name)
       parameter.validate(data)
 
-  def get_json_repr(self):
-    return {
-      "parameters": [
-        param.get_json_repr() for param in self.parameters
-      ]
-    }
+  def get_json_view(self) -> JSONFormView:
+    return JSONFormView(self)
 
   def bind_request_data(self, formdata: MultiDict[str]):
     data = {
